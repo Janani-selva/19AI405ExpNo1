@@ -1,12 +1,10 @@
 <h1>ExpNo 1 :Developing AI Agent with PEAS Description</h1>
-<h3>Name: Saravanan N</h3>
-<h3>Register Number/Staff Id: TSML006</h3>
+<h3>Name: JANANI S</h3>
+<h3>Register Number: 212224230103</h3>
 
 
 <h3>AIM:</h3>
-<br>
 <p>To find the PEAS description for the given AI problem and develop an AI agent.</p>
-<br>
 <h3>Theory</h3>
 <h3>Medicine prescribing agent:</h3>
 <p>Such this agent prescribes medicine for fever (greater than 98.5 degrees) which we consider here as unhealthy, by the user temperature input, and another environment is rooms in the hospital (two rooms). This agent has to consider two factors one is room location and an unhealthy patient in a random room, the agent has to move from one room to another to check and treat the unhealthy person. The performance of the agent is calculated by incrementing performance and each time after treating in one room again it has to check another room so that the movement causes the agent to reduce its performance. Hence, agents prescribe medicine to unhealthy.</p>
@@ -40,3 +38,62 @@
 <p>Treat unhealthy patients in each room. And check for the unhealthy patients in random room</p>
 <h3>STEP 5:</h3>
 <p>Measure the performance parameters: For each treatment performance incremented, for each movement performance decremented</p>
+
+## PROGRAM:
+```
+import random
+
+class MedicineAgent:
+    def __init__(self):
+        self.location = "Room A"
+        self.performance = 0
+
+    def act(self, environment):
+        temp = environment[self.location]["temperature"]
+
+        if temp > 98.5:
+            print(f"Patient in {self.location} unhealthy ({temp:.1f}°F). Giving medicine.")
+            self.performance += 10
+            environment[self.location]["temperature"] = 98.0
+        else:
+            print(f"Patient in {self.location} healthy ({temp:.1f}°F).")
+
+        self.location = "Room B" if self.location == "Room A" else "Room A"
+        self.performance -= 1
+
+        print(f"Moving to {self.location}. Performance: {self.performance}")
+        print("-" * 30)
+
+
+def main():
+    environment = {
+        "Room A": {"temperature": random.uniform(97.0, 102.0)},
+        "Room B": {"temperature": random.uniform(97.0, 102.0)}
+    }
+
+    agent = MedicineAgent()
+
+    print("Starting simulation.")
+    print("-" * 30)
+
+    for step in range(5):
+        print(f"--- Step {step + 1} ---")
+        agent.act(environment)
+
+        random_room = random.choice(["Room A", "Room B"])
+        environment[random_room]["temperature"] = random.uniform(99.0, 103.0)
+
+    print("Simulation finished.")
+
+
+if __name__ == "__main__":
+    main()
+
+```
+
+## OUTPUT:
+<img width="840" height="517" alt="WhatsApp Image 2026-07-22 at 4 06 48 PM" src="https://github.com/user-attachments/assets/782f8154-4155-48c1-81c1-dc5581bc18e8" />
+
+
+## RESULT:
+The PEAS description was identified, and an AI agent was successfully developed to perceive the environment and take appropriate actions.
